@@ -1,0 +1,16 @@
+{% extends "registration/base.html" %}
+
+{% block title %}{{ block.super }} - Login{% endblock title %}
+
+{% block content %}
+    <div class="container text-dark">
+        <div class="row justify-content-center">
+            <div class="col-xl-5 col-md-8">
+                <div class="bg-white rounded p-5">
+                <p> You have been logged out.
+                    <a href="{% url 'login' %}">Click here</a> to login again.
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
