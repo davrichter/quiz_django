@@ -1,6 +1,6 @@
 {% extends "registration/base.html" %}
 
-{% block title %}{{ block.super }} - Login{% endblock title %}
+{% block title %}{{ block.super }} - Create User{% endblock title %}
 
 {% block content %}
     <div class="container text-dark">
@@ -8,9 +8,9 @@
             <div class="col-xl-5 col-md-8">
                 <form class="bg-white rounded p-5"
                       method="POST"
-                      action="{% url 'login' %}">
+                      action="{% url 'CreateUser' %}">
                     {% csrf_token %}
-                    <h2 class="text-center">Login</h2>
+                    <h2 class="text-center">Create New Account</h2>
                     <br>
                     <div class="form-outline mb-4">
                         <input id="form1Example1" class="form-control" name="username"/>
@@ -22,10 +22,7 @@
                         <label class="form-label" for="form1Example2">Password</label>
                     </div>
                     <!-- Submit button -->
-                    <button type="submit" class="btn btn-primary btn-block">Login</button>
-                    <br>
-                    <br>
-                    <p>Dont have an account? <a href="{% url 'CreateUser' %}">Create one!</a></p>
+                    <button type="submit" class="btn btn-primary btn-block">Create Account</button>
                 </form>
             </div>
         </div>
