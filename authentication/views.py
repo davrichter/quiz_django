@@ -22,29 +22,11 @@ class CreateUserView(FormView):
         first_name = self.request.POST["first_name"]
         last_name = self.request.POST["last_name"]
 
-        if first_name and last_name:
-            user = models.User.objects.create_user(username=username,
-                                                   password=password,
-                                                   first_name=first_name,
-                                                   last_name=last_name)
-            user.save()
-
-        elif first_name:
-            user = models.User.objects.create_user(username=username,
-                                                   password=password,
-                                                   first_name=first_name)
-            user.save()
-
-        elif last_name:
-            user = models.User.objects.create_user(username=username,
-                                                   password=password,
-                                                   last_name=last_name)
-            user.save()
-
-        else:
-            user = models.User.objects.create_user(username=username,
-                                                   password=password,)
-            user.save()
+        user = models.User.objects.create_user(username=username,
+                                               password=password,
+                                               first_name=first_name,
+                                               last_name=last_name)
+        user.save()
 
         return HttpResponseRedirect(reverse('login'))
 
