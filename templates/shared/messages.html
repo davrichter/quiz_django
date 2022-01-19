@@ -1,7 +1,9 @@
 {% if messages %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'shared/css/massages.css' %}">
     <div class="container">
         {% for message in messages %}
-            <div class="alert
+            <div role="alert" class="alert alert-dismissible fade show d-flex align-items-center
                 {% if message.level ==  DEFAULT_MESSAGE_LEVELS.ERROR %}
                     alert-danger
                 {% elif message.level ==  DEFAULT_MESSAGE_LEVELS.WARNING %}
@@ -10,10 +12,19 @@
                     alert-success
                 {% elif message.level ==  DEFAULT_MESSAGE_LEVELS.INFO %}
                     alert-primary
-                {% endif %} alert-dismissible fade show "
-                 role="alert">
+                {% endif %}">
+
+                {% if message.level ==  DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                {% elif message.level ==  DEFAULT_MESSAGE_LEVELS.WARNING %}
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                {% elif message.level ==  DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                    <i class="bi bi-info-circle-fill"></i>
+                {% elif message.level ==  DEFAULT_MESSAGE_LEVELS.INFO %}
+                    <i class="bi bi-check-circle-fill"></i>
+                {% endif %}
                 <span>{{ message }}</span>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <button type="button" class="btn-close align-center" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         {% endfor %}
     </div>
