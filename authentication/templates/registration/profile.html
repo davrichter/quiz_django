@@ -9,6 +9,14 @@
                 <div class="bg-white rounded p-5">
                     <h1>{{ profile_user.username }}</h1>
                     <span>Joined: {{ profile_user.date_joined }}</span>
+                    <br>
+                    {% if profile_user.first_name %}
+                        <span>First Name: {{ profile_user.first_name }}</span>
+                        <br>
+                    {% endif %}
+                    {% if profile_user.last_name %}
+                        <span>Last Name: {{ profile_user.last_name }}</span>
+                    {% endif %}
                 </div>
             </div>
         </div>
