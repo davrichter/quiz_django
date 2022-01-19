@@ -37,7 +37,15 @@ class CreateUserView(FormView):
             return HttpResponseRedirect(reverse('CreateUser'))
 
 
-def view_user_profile(request, user_id):
-    user = get_object_or_404(models.User, pk=user_id)
+def view_user_profile(request, user_id=None):
+    if user_id:
+        user = get_object_or_404(models.User, pk=user_id)
 
-    return HttpResponse(render(request, 'registration/profile.html', context={'profile_user': user}))
+        return HttpResponse(render(request, 'registration/profile.html', context={'profile_user': user}))
+    else:
+        if request.user.is_authenticated:
+            user = get_object_or_404(models.User, id=request.user.id)
+
+            return HttpResponse(render(request, 'registration/profile.html', context={'profile_user': user}))
+        else:
+            return HttpResponse(status=404)
