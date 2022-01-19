@@ -1,6 +1,9 @@
 from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 from django.urls import reverse
 from django.views.generic.edit import FormView
+from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 
 from . import forms
 from . import models
@@ -21,3 +24,9 @@ class CreateUserView(FormView):
         user.save()
 
         return HttpResponseRedirect(reverse('login'))
+
+
+def view_user_profile(request, user_id):
+    user = get_object_or_404(models.User, pk=user_id)
+
+    return HttpResponse(render(request, 'registration/profile.html', context={'profile_user': user}))
