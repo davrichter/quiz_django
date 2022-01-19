@@ -4,6 +4,8 @@ from django.urls import reverse
 from django.views.generic.edit import FormView
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
+from django.db.utils import IntegrityError
+from django.contrib import messages
 
 from . import forms
 from . import models
@@ -22,13 +24,17 @@ class CreateUserView(FormView):
         first_name = self.request.POST["first_name"]
         last_name = self.request.POST["last_name"]
 
-        user = models.User.objects.create_user(username=username,
-                                               password=password,
-                                               first_name=first_name,
-                                               last_name=last_name)
-        user.save()
+        try:
+            user = models.User.objects.create_user(username=username,
+                                                   password=password,
+                                                   first_name=first_name,
+                                                   last_name=last_name)
+            user.save()
 
-        return HttpResponseRedirect(reverse('login'))
+            return HttpResponseRedirect(reverse('login'))
+        except IntegrityError:
+            messages.add_message(self.request, messages.ERROR, 'This username is already taken.')
+            return HttpResponseRedirect(reverse('CreateUser'))
 
 
 def view_user_profile(request, user_id):
