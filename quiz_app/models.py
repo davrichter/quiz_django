@@ -1,3 +1,7 @@
+"""
+    define models for quiz_app
+"""
+
 from django.db import models
 
 from authentication.models import User
@@ -14,7 +18,7 @@ class Quiz(models.Model):
     thumbnail = models.ImageField()
 
     def __str__(self):
-        return self.title
+        return str(self.title)
 
 
 class Question(models.Model):
@@ -24,7 +28,11 @@ class Question(models.Model):
     """
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
-    time = models.PositiveIntegerField(verbose_name="Time to solve the question", name="Time", null=True)
+    time = models.PositiveIntegerField(
+        verbose_name="Time to solve the question",
+        name="Time",
+        null=True
+    )
 
 
 class Option(models.Model):
