@@ -1,3 +1,7 @@
+"""
+    register all relevant models to the admin page
+"""
+
 from django.contrib import admin
 
 from . import models
