@@ -13,6 +13,7 @@ class Quiz(models.Model):
     """a quiz which users can create, like, dislike or add comments"""
     title = models.CharField(max_length=100)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date_created = models.DateTimeField(name="Date Created")
     likes = models.PositiveIntegerField(name="Likes")
     dislikes = models.PositiveIntegerField(name="Dislikes")
     thumbnail = models.ImageField()
