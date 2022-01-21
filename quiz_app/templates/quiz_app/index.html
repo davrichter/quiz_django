@@ -1,10 +1,27 @@
 {% extends 'quiz_app/base.html' %}
+{% load static %}
+
+{% block stylesheets %}
+    {{ block.super }}
+    <link rel="stylesheet"
+          href="{% static 'quiz_app/css/index.css' %}">
+{% endblock stylesheets %}
 
 {% block content %}
     <div class="container">
-        {% for quiz in object_list %}
-            <p>{{ quiz.title }}</p>
-            <img src="{{ MEDIA_URL }}{{ quiz.thumbnail }}">
-        {% endfor %}
+        <div class="row d-inline-flex text-center">
+            {% for quiz in object_list %}
+                <div class="quiz col rounded bg-light shadow">
+                    <a href="">
+                        <img src="{{ MEDIA_URL }}{{ quiz.thumbnail }}"
+                             class="thumbnail rounded d-flex"
+                             alt="Thumbnail"
+                             width="320"
+                             height="180">
+                        <p class="text-center">{{ quiz.title }}</p>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 {% endblock content %}

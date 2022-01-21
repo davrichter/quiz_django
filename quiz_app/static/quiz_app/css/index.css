@@ -1,0 +1,12 @@
+div.col {
+    margin: 10px;
+}
+
+div.quiz {
+    max-width: 350px;
+    height: 210px;
+}
+
+img.thumbnail {
+    margin: 0;
+}
