@@ -48,20 +48,6 @@
                         </a>
                     </li>
                 {% endif %}
-                <li class="nav-item col-6 col-md-auto">
-                    <form method="post" action="">
-                        {% csrf_token %}
-                        <button class="nav-link p-2 btn d-flex align-items-center"
-                                id="themeToggler"
-                                aria-label="Toggle theme"
-                                name="text_theme"
-                                value="{{ request.user.text_theme }}"
-                                title="Toggle theme">
-                            <i class="bi bi-sun-fill header-icon"></i>
-                            Theme
-                        </button>
-                    </form>
-                </li>
             </ul>
         </div>
     </nav>
