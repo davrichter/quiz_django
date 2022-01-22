@@ -9,5 +9,6 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    path('', views.IndexView.as_view(), name='IndexView')
+    path('', views.IndexView.as_view(), name='IndexView'),
+    path('create-quiz/', views.CreateQuizView.as_view(), name='CreateQuizView')
 ]

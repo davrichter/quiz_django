@@ -1,0 +1,29 @@
+{% extends 'quiz_app/base.html' %}
+
+{% block content %}
+    <div class="container">
+        <form method="post" action="{% url 'CreateQuizView' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="quiz-title-form" class="form-label">Title:</label>
+                <input class="form-control"
+                       id="quiz-title-form"
+                       aria-describedby="Title"
+                       name="title">
+            </div>
+            <div class="mb-3">
+                <label for="file-upload-form" class="form-label">Thumbnail:</label>
+                <input type="file"
+                       class="form-control"
+                       id="file-upload-form"
+                       aria-describedby="Thumbnail"
+                       name="thumbnail">
+            </div>
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Create Quiz</button>
+        </form>
+    </div>
+{% endblock content %}

@@ -4,6 +4,9 @@
 
 from django.db import models
 
+from imagekit.models import ProcessedImageField
+from imagekit.processors import ResizeToFill
+
 from authentication.models import User
 
 
@@ -13,10 +16,10 @@ class Quiz(models.Model):
     """a quiz which users can create, like, dislike or add comments"""
     title = models.CharField(max_length=100)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    date_created = models.DateTimeField(name="Date Created")
-    likes = models.PositiveIntegerField(name="Likes")
-    dislikes = models.PositiveIntegerField(name="Dislikes")
-    thumbnail = models.ImageField()
+    date_created = models.DateTimeField(name="Date Created", auto_now=True)
+    likes = models.PositiveIntegerField(name="Likes", default=0)
+    dislikes = models.PositiveIntegerField(name="Dislikes", default=0)
+    thumbnail = ProcessedImageField(processors=[ResizeToFill(640, 360)], format='WEBP', options={'quality': 60})
 
     def __str__(self):
         return str(self.title)
