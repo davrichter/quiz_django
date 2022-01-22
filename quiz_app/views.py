@@ -5,10 +5,13 @@ import io
 import math
 
 from django.http import HttpResponseRedirect
+from django.http import HttpResponse
+from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 from django.contrib import messages
+from django.shortcuts import get_object_or_404
 
 from PIL import Image
 
@@ -28,6 +31,7 @@ class IndexView(ListView):
 
 
 class CreateQuizView(FormView):
+    """view for creating a quiz"""
     template_name = 'quiz_app/create_quiz.html'
     form_class = forms.CreateQuizForm
     success_url = '/accounts/login/'
@@ -57,3 +61,14 @@ class CreateQuizView(FormView):
         print(self.request.POST)
 
         return HttpResponseRedirect(reverse('IndexView'))
+
+
+def quiz_view(request, quiz_id):
+    """view for viewing a quiz"""
+    quiz = get_object_or_404(models.Quiz, pk=quiz_id)
+    questions = models.Question.objects.filter(quiz=quiz)
+
+    return HttpResponse(render(request, 'quiz_app/show_quiz.html', context={
+        'quiz': quiz,
+        'questions': questions
+    }))

@@ -12,7 +12,7 @@
         <div class="row d-inline-flex text-center">
             {% for quiz in object_list %}
                 <div class="quiz col rounded bg-light shadow">
-                    <a href="">
+                    <a href="{% url 'QuizView' quiz_id=quiz.id %}">
                         <img src="{{ MEDIA_URL }}{{ quiz.thumbnail }}"
                              class="thumbnail rounded d-flex"
                              alt="Thumbnail"

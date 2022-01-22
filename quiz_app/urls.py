@@ -10,5 +10,6 @@ from . import views
 
 urlpatterns = [
     path('', views.IndexView.as_view(), name='IndexView'),
-    path('create-quiz/', views.CreateQuizView.as_view(), name='CreateQuizView')
+    path('create-quiz/', views.CreateQuizView.as_view(), name='CreateQuizView'),
+    path('view-quiz/<int:quiz_id>', views.quiz_view, name='QuizView')
 ]
