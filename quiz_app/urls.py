@@ -10,6 +10,8 @@ from . import views
 
 urlpatterns = [
     path('', views.IndexView.as_view(), name='IndexView'),
-    path('create-quiz/', views.CreateQuizView.as_view(), name='CreateQuizView'),
-    path('view-quiz/<int:quiz_id>', views.quiz_view, name='QuizView')
+    path('quiz/create/', views.CreateQuizView.as_view(), name='CreateQuizView'),
+    path('quiz/edit/<int:quiz_id>/', views.edit_quiz_view, name='EditQuizView'),
+    path('quiz/delete/<int:quiz_id>/', views.quiz_delete, name='DeleteQuiz'),
+    path('quiz/view/<int:quiz_id>/', views.quiz_view, name='QuizView'),
 ]

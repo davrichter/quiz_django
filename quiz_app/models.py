@@ -17,6 +17,7 @@ class Quiz(models.Model):
     title = models.CharField(max_length=100)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date_created = models.DateTimeField(name="Date Created", auto_now=True)
+    date_last_edited = models.DateTimeField(name="Date last edited", null=True)
     likes = models.PositiveIntegerField(name="Likes", default=0)
     dislikes = models.PositiveIntegerField(name="Dislikes", default=0)
     thumbnail = ProcessedImageField(processors=[ResizeToFill(640, 360)], format='WEBP', options={'quality': 60})

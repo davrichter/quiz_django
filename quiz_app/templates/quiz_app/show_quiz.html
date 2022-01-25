@@ -2,15 +2,18 @@
 
 {% block content %}
     <div class="container">
-    <h1>{{ quiz.title }}</h1>
-    <p>{{ quiz.date_created }}</p>
-    <ul>
-        {% for question in questions %}
-            <li>
-                <span>{{ question.title }} - </span>
-                <span>{{ question.Time }} Seconds</span>
-            </li>
-        {% endfor %}
-    </ul>
+        <h1>{{ quiz.title }}</h1>
+        <p>{{ quiz.date_created }}</p>
+        {% if request.user == quiz.user %}
+            <a href="{% url 'EditQuizView' quiz.id %}">Edit Quiz</a>
+        {% endif %}
+        <ul>
+            {% for question in questions %}
+                <li>
+                    <span>{{ question.title }} - </span>
+                    <span>{{ question.Time }} Seconds</span>
+                </li>
+            {% endfor %}
+        </ul>
     </div>
 {% endblock content %}
