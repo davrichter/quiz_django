@@ -69,7 +69,7 @@ def edit_quiz_view(request, quiz_id):
     quiz = get_object_or_404(models.Quiz, pk=quiz_id)
     if request.POST:
         if request.POST['title']:
-            quiz.model.title = request.POST['title']
+            quiz.title = request.POST['title']
 
         if request.FILES['thumbnail']:
             thumbnail = request.FILES['thumbnail']
@@ -78,8 +78,8 @@ def edit_quiz_view(request, quiz_id):
                 """if the image is larger than 2.5 megabyte return with an error message"""
                 messages.add_message(request, messages.ERROR, "Images can't be larger than 2.5 Megabytes.")
                 return HttpResponseRedirect(reverse('CreateQuizView'))
-
-            quiz.model.thumbnail = thumbnail
+            else:
+                quiz.thumbnail = thumbnail
 
         quiz.save()
 
