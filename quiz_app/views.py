@@ -89,11 +89,6 @@ def edit_quiz_view(request, quiz_id):
     return HttpResponseRedirect(reverse('IndexView'))
 
 
-def form_invalid(self, form):
-    messages.add_message(self.request, messages.ERROR, "There was an unknown error. Please try again.")
-    return HttpResponseRedirect(reverse('CreateQuizView'))
-
-
 def quiz_view(request, quiz_id):
     """view for viewing a quiz"""
     quiz = get_object_or_404(models.Quiz, pk=quiz_id)
