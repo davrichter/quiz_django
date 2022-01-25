@@ -79,7 +79,7 @@ def edit_quiz_view(request, quiz_id):
         quiz.save()
 
     else:
-        return HttpResponse(render(request, 'quiz_app/edit_quiz.html', {'quiz': quiz}))
+        return render(request, 'quiz_app/edit_quiz.html', {'quiz': quiz})
 
     return HttpResponseRedirect(reverse('IndexView'))
 
