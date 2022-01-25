@@ -1,8 +1,6 @@
 """
     views for quiz_app
 """
-import io
-import math
 
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
@@ -10,11 +8,8 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
-from django.views.generic.edit import UpdateView
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
-
-from PIL import Image
 
 from . import forms
 from . import models
