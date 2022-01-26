@@ -77,7 +77,6 @@ def edit_quiz_view(request, quiz_id):
                 else:
                     quiz.thumbnail = thumbnail
         except datastructures.MultiValueDictKeyError:
-            print("Hlo")
             pass
 
         quiz.save()
