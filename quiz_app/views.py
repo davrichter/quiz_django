@@ -1,5 +1,5 @@
 """
-    views for quiz_app
+    Views for quiz_app.
 """
 from django.utils import datastructures
 from django.http import HttpResponseRedirect
@@ -18,6 +18,7 @@ from . import models
 # Create your views here.
 
 class IndexView(ListView):
+    """Index view for showing some Quizzes."""
     model = models.Quiz
     template_name = 'quiz_app/index.html'
 
@@ -27,7 +28,7 @@ class IndexView(ListView):
 
 
 class CreateQuizView(FormView):
-    """view for creating a quiz"""
+    """A view for creating a quiz."""
     template_name = 'quiz_app/create_quiz.html'
     form_class = forms.CreateQuizForm
     success_url = '/accounts/login/'
@@ -59,8 +60,7 @@ class CreateQuizView(FormView):
 
 
 def edit_quiz_view(request, quiz_id):
-    """view for editing a quiz"""
-
+    """A view for editing a quiz."""
     quiz = get_object_or_404(models.Quiz, pk=quiz_id)
     if request.POST:
         if request.POST['title']:
@@ -88,7 +88,7 @@ def edit_quiz_view(request, quiz_id):
 
 
 def quiz_view(request, quiz_id):
-    """view for viewing a quiz"""
+    """A view for viewing a quiz."""
     quiz = get_object_or_404(models.Quiz, pk=quiz_id)
     questions = models.Question.objects.filter(quiz=quiz)
 
@@ -99,6 +99,7 @@ def quiz_view(request, quiz_id):
 
 
 def quiz_delete(request, quiz_id):
+    """A view for deleting a quiz."""
     quiz = get_object_or_404(models.Quiz, pk=quiz_id)
     if quiz.user == request.user:
         quiz.delete()
