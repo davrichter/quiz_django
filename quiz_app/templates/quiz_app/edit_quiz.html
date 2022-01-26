@@ -1,11 +1,32 @@
 {% extends 'quiz_app/base.html' %}
 {% load static %}
 
+{% block title %}{{ block.super }}Edit Quiz{% endblock title %}
+
 {% block content %}
     <div class="container">
+        <form method="POST" class="mt-2" action="{% url 'EditQuizView' quiz_id=quiz.id %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="title">Title:</label>
+                <input id="title" name="title" value="{{ quiz.title }}" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="file-upload-form" class="form-label">Thumbnail:</label>
+                <input type="file"
+                       class="form-control"
+                       id="file-upload-form"
+                       aria-describedby="Thumbnail"
+                       name="thumbnail">
+            </div>
+            <button class="btn btn-primary mt-1" type="submit">Save</button>
+        </form>
+
+        <hr class="">
         <button class="btn btn-danger" id="delete-quiz-button" data-bs-toggle="modal" data-bs-target="#exampleModal">
             Delete Quiz
         </button>
+        <!-- modal to submit to the deletion of quiz -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -26,6 +47,7 @@
                 </div>
             </div>
         </div>
+        <!-- modal to submit to the deletion of quiz -->
     </div>
 {% endblock content %}
 

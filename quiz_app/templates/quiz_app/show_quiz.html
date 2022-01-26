@@ -1,5 +1,7 @@
 {% extends 'quiz_app/base.html' %}
 
+{% block title %}{{ block.super }}{{ quiz.title }}{% endblock title %}
+
 {% block content %}
     <div class="container">
         <h1>{{ quiz.title }}</h1>

@@ -1,7 +1,7 @@
 """
     views for quiz_app
 """
-
+from django.utils import datastructures
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -66,15 +66,19 @@ def edit_quiz_view(request, quiz_id):
         if request.POST['title']:
             quiz.title = request.POST['title']
 
-        if request.FILES['thumbnail']:
-            thumbnail = request.FILES['thumbnail']
+        try:
+            if request.FILES['thumbnail']:
+                thumbnail = request.FILES['thumbnail']
 
-            if thumbnail.multiple_chunks():
-                """if the image is larger than 2.5 megabyte return with an error message"""
-                messages.add_message(request, messages.ERROR, "Images can't be larger than 2.5 Megabytes.")
-                return HttpResponseRedirect(reverse('CreateQuizView'))
-            else:
-                quiz.thumbnail = thumbnail
+                if thumbnail.multiple_chunks():
+                    """if the image is larger than 2.5 megabyte return with an error message"""
+                    messages.add_message(request, messages.ERROR, "Images can't be larger than 2.5 Megabytes.")
+                    return HttpResponseRedirect(reverse('CreateQuizView'))
+                else:
+                    quiz.thumbnail = thumbnail
+        except datastructures.MultiValueDictKeyError:
+            print("Hlo")
+            pass
 
         quiz.save()
 
