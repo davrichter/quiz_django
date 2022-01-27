@@ -65,28 +65,32 @@ class CreateQuizView(FormView):
 def edit_quiz_view(request, quiz_id):
     """A view for editing a quiz."""
     quiz = get_object_or_404(models.Quiz, pk=quiz_id)
-    if request.POST:
-        if request.POST['title']:
-            quiz.title = request.POST['title']
+    if quiz.user == request.user:
+        if request.POST:
+            if request.POST['title']:
+                quiz.title = request.POST['title']
 
-        try:
-            if request.FILES['thumbnail']:
-                thumbnail = request.FILES['thumbnail']
+            try:
+                if request.FILES['thumbnail']:
+                    thumbnail = request.FILES['thumbnail']
 
-                if thumbnail.multiple_chunks():
-                    """if the image is larger than 2.5 megabyte return with an error message"""
-                    messages.add_message(request, messages.ERROR, "Images can't be larger than 2.5 Megabytes.")
-                    return HttpResponseRedirect(reverse('CreateQuizView'))
-                else:
-                    os.remove(f"{os.getcwd()}{settings.MEDIA_URL}{quiz.thumbnail}")
-                    quiz.thumbnail = thumbnail
-        except datastructures.MultiValueDictKeyError:
-            pass
+                    if thumbnail.multiple_chunks():
+                        """if the image is larger than 2.5 megabyte return with an error message"""
+                        messages.add_message(request, messages.ERROR, "Images can't be larger than 2.5 Megabytes.")
+                        return HttpResponseRedirect(reverse('CreateQuizView'))
+                    else:
+                        os.remove(f"{os.getcwd()}{settings.MEDIA_URL}{quiz.thumbnail}")
+                        quiz.thumbnail = thumbnail
+            except datastructures.MultiValueDictKeyError:
+                pass
 
-        quiz.save()
+            quiz.save()
+
+        else:
+            return render(request, 'quiz_app/edit_quiz.html', {'quiz': quiz})
 
     else:
-        return render(request, 'quiz_app/edit_quiz.html', {'quiz': quiz})
+        return render(request, 'quiz_app/no_permission.html')
 
     return HttpResponseRedirect(reverse('IndexView'))
 
