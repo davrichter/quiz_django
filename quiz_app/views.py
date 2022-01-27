@@ -1,6 +1,8 @@
 """
     Views for quiz_app.
 """
+import os
+
 from django.utils import datastructures
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
@@ -11,6 +13,7 @@ from django.views.generic.list import ListView
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
 
+from quiz_django import settings
 from . import forms
 from . import models
 
@@ -75,6 +78,7 @@ def edit_quiz_view(request, quiz_id):
                     messages.add_message(request, messages.ERROR, "Images can't be larger than 2.5 Megabytes.")
                     return HttpResponseRedirect(reverse('CreateQuizView'))
                 else:
+                    os.remove(f"{os.getcwd()}{settings.MEDIA_URL}{quiz.thumbnail}")
                     quiz.thumbnail = thumbnail
         except datastructures.MultiValueDictKeyError:
             pass
@@ -102,6 +106,7 @@ def quiz_delete(request, quiz_id):
     """A view for deleting a quiz."""
     quiz = get_object_or_404(models.Quiz, pk=quiz_id)
     if quiz.user == request.user:
+        os.remove(f"{os.getcwd()}{settings.MEDIA_URL}{quiz.thumbnail}")
         quiz.delete()
 
         messages.add_message(request, messages.SUCCESS, "Quiz has been deleted.")
