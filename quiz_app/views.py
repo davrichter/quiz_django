@@ -65,7 +65,7 @@ class CreateQuizView(FormView):
 
 
 def edit_quiz_view(request, quiz_id):
-    """A view for editing a quiz."""
+    """A view for editing a quiz and its questions."""
     quiz = get_object_or_404(models.Quiz, pk=quiz_id)
     if quiz.user == request.user:
         if request.POST:
