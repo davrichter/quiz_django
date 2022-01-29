@@ -36,14 +36,20 @@ class Question(models.Model):
     time = models.PositiveIntegerField(
         verbose_name="Time to solve the question",
         name="Time",
-        null=True
+        null=True,
     )
+
+    def __str__(self):
+        return self.title
 
 
 class Option(models.Model):
     """an option which belongs to a question, a question can have multiple options"""
     text = models.CharField(max_length=200)
     Question = models.ForeignKey(Question, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.Question} - {self.text}"
 
 
 class Comment(models.Model):

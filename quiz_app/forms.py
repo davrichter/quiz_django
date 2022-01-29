@@ -13,8 +13,4 @@ class CreateQuizForm(forms.Form):
 
 class CreateQuestionForm(forms.Form):
     title = forms.CharField(max_length=200)
-    time = forms.IntegerField(
-        verbose_name="Time to solve the question",
-        name="Time",
-        null=True
-    )
+    time = forms.IntegerField()

@@ -3,6 +3,7 @@
 """
 import os
 
+from django.db.models import QuerySet
 from django.utils import datastructures
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
@@ -10,6 +11,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
+from django.views.generic.base import ContextMixin
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
 
@@ -87,7 +89,14 @@ def edit_quiz_view(request, quiz_id):
             quiz.save()
 
         else:
-            return render(request, 'quiz_app/edit_quiz.html', {'quiz': quiz})
+            questions = models.Question.objects.filter(quiz=quiz)
+            options = models.Option.objects.filter(Question__in=questions)
+
+            return render(request, 'quiz_app/edit_quiz.html', {
+                'quiz': quiz,
+                'questions': questions,
+                'options': options
+            })
 
     else:
         return render(request, 'quiz_app/no_permission.html')

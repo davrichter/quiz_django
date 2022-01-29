@@ -5,7 +5,9 @@
 
 {% block content %}
     <div class="container">
-        <form method="POST" class="mt-2" action="{% url 'EditQuizView' quiz_id=quiz.id %}" enctype="multipart/form-data">
+        <h2>Quiz</h2>
+        <form method="POST" class="mt-2" action="{% url 'EditQuizView' quiz_id=quiz.id %}"
+              enctype="multipart/form-data">
             {% csrf_token %}
             <div class="mb-3">
                 <label for="title" class="form-label">Title:</label>
@@ -22,7 +24,7 @@
             <button class="btn btn-primary mt-1" type="submit">Save</button>
         </form>
 
-        <hr class="">
+        <hr>
         <button class="btn btn-danger" id="delete-quiz-button" data-bs-toggle="modal" data-bs-target="#exampleModal">
             Delete Quiz
         </button>
@@ -48,6 +50,45 @@
             </div>
         </div>
         <!-- modal to submit to the deletion of quiz -->
+        <hr>
+    </div>
+    <div class="container">
+        <h2>Questions</h2>
+        <form class="" method="POST" action="">
+            {% for question in questions %}
+                {% csrf_token %}
+                <div class="rounded shadow">
+                    <div class="m-3">
+                        <div class="form-floating mb-3">
+                            <input class="form-control"
+                                   id="quiz-title-form"
+                                   aria-describedby="Question"
+                                   name="QUESTION_{{ question.id }}"
+                                   placeholder="Question"
+                                   value="{{ question.title }}">
+                            <label for="quiz-title-form">Question</label>
+                        </div>
+                        <ul>
+                            {% for option in options %}
+                                {% if option.Question == question %}
+                                    <li>
+                                        <div class="form-floating mb-3">
+                                            <input class="form-control"
+                                                   id="quiz-title-form"
+                                                   aria-describedby="Option"
+                                                   name="{{ option.id }}"
+                                                   value="{{ option.text }}">
+                                            <label for="quiz-title-form" class="form-label">Option</label>
+                                        </div>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% endfor %}
+            <button class="btn btn-primary mt-1" type="submit">Save</button>
+        </form>
     </div>
 {% endblock content %}
 
