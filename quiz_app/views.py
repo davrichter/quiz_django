@@ -127,3 +127,25 @@ def quiz_delete(request, quiz_id):
     else:
         messages.add_message(request, messages.ERROR, "You have no permission to delete this Quiz.")
         return HttpResponseRedirect(reverse('IndexView'))
+
+
+def edit_questions(request, quiz_id):
+    quiz = get_object_or_404(models.Quiz, pk=quiz_id)
+    questions = models.Question.objects.filter(quiz=quiz)
+
+    for i in request.POST:
+        if 'QUESTION' in i:
+            current_question = get_object_or_404(models.Question, id=i[8:])
+            current_question.title = request.POST[i]
+            current_question.save()
+
+        elif 'OPTION' in i:
+            current_option = get_object_or_404(models.Option, id=i[6:])
+            current_option.text = request.POST[i]
+            current_option.save()
+
+        else:
+            pass
+
+    return HttpResponseRedirect(reverse('IndexView'))
+

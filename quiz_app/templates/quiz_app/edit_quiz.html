@@ -54,7 +54,7 @@
     </div>
     <div class="container">
         <h2>Questions</h2>
-        <form class="" method="POST" action="">
+        <form class="" method="POST" action="{% url 'QuestionUpdateView' quiz_id=quiz.id %}">
             {% for question in questions %}
                 {% csrf_token %}
                 <div class="rounded shadow">
@@ -63,7 +63,7 @@
                             <input class="form-control"
                                    id="quiz-title-form"
                                    aria-describedby="Question"
-                                   name="QUESTION_{{ question.id }}"
+                                   name="QUESTION{{ question.id }}"
                                    placeholder="Question"
                                    value="{{ question.title }}">
                             <label for="quiz-title-form">Question</label>
@@ -76,7 +76,7 @@
                                             <input class="form-control"
                                                    id="quiz-title-form"
                                                    aria-describedby="Option"
-                                                   name="{{ option.id }}"
+                                                   name="OPTION{{ option.id }}"
                                                    value="{{ option.text }}">
                                             <label for="quiz-title-form" class="form-label">Option</label>
                                         </div>
