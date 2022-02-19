@@ -46,9 +46,7 @@ class CreateQuizView(FormView):
 
         if thumbnail.multiple_chunks():
             """if the image is larger than 2.5 megabyte return with an error message"""
-            messages.add_message(self.request,
-                                 messages.ERROR,
-                                 "Images can't be larger than 2.5 Megabytes.")
+            messages.add_message(self.request, messages.ERROR, "Images can't be larger than 2.5 Megabytes.")
             return HttpResponseRedirect(reverse('CreateQuizView'))
 
         quiz = models.Quiz.objects.create(
@@ -62,9 +60,7 @@ class CreateQuizView(FormView):
         return HttpResponseRedirect(reverse('IndexView'))
 
     def form_invalid(self, form):
-        messages.add_message(self.request,
-                             messages.ERROR,
-                             "There was an unknown error. Please try again.")
+        messages.add_message(self.request, messages.ERROR, "There was an unknown error. Please try again.")
         return HttpResponseRedirect(reverse('CreateQuizView'))
 
 
@@ -82,9 +78,7 @@ def edit_quiz_view(request, quiz_id):
 
                     if thumbnail.multiple_chunks():
                         """if the image is larger than 2.5 megabyte return with an error message"""
-                        messages.add_message(request,
-                                             messages.ERROR,
-                                             "Images can't be larger than 2.5 Megabytes.")
+                        messages.add_message(request, messages.ERROR, "Images can't be larger than 2.5 Megabytes.")
                         return HttpResponseRedirect(reverse('CreateQuizView'))
                     else:
                         os.remove(f"{os.getcwd()}{settings.MEDIA_URL}{quiz.thumbnail}")
@@ -136,18 +130,13 @@ def quiz_delete(request, quiz_id):
 
 
 def edit_questions(request, quiz_id):
-    """
-        A view for editing existing questions and options.
-        If one or more questions on the database aren't sent in the request
-        those questions are going to be deleted.
-    """
-    questions = list(models.Question.objects.filter(quiz=quiz_id))
-    sent_questions = list()
+    quiz = get_object_or_404(models.Quiz, pk=quiz_id)
+    questions = models.Question.objects.filter(quiz=quiz)
+
     for i in request.POST:
         if 'QUESTION' in i:
             current_question = get_object_or_404(models.Question, id=i[8:])
             current_question.title = request.POST[i]
-            sent_questions.append(current_question)
             current_question.save()
 
         elif 'OPTION' in i:
@@ -158,33 +147,5 @@ def edit_questions(request, quiz_id):
         else:
             pass
 
-    for i in questions:
-        if i not in sent_questions:
-            i.delete()
+    return HttpResponseRedirect(reverse('IndexView'))
 
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
-
-def create_questions(request, quiz_id):
-    """A view for creating questions and options."""
-    quiz = get_object_or_404(models.Quiz, pk=quiz_id)
-
-    for i in request.POST:
-        if 'NEW_QUESTION' in i:
-            new_question = models.Question.objects.create(
-                title=request.POST[i],
-                quiz=quiz,
-            )
-
-            new_question.save()
-
-            for j in request.POST:
-                if 'NEW_OPTION' in j and i[12:] in j:
-                    new_option = models.Option.objects.create(
-                        text=request.POST[j],
-                        Question=new_question,
-                    )
-
-                    new_option.save()
-
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
