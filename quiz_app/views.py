@@ -71,8 +71,8 @@ def edit_quiz_view(request, quiz_id):
             if request.POST['title']:
                 quiz.title = request.POST['title']
 
-            try:
-                if request.FILES['thumbnail']:
+            if request.FILES['thumbnail']:
+                try:
                     thumbnail = request.FILES['thumbnail']
 
                     if thumbnail.multiple_chunks():
@@ -87,10 +87,11 @@ def edit_quiz_view(request, quiz_id):
 
                         quiz.thumbnail = thumbnail
 
-                quiz.save()
+                except datastructures.MultiValueDictKeyError:
+                    pass
 
-            except datastructures.MultiValueDictKeyError:
-                pass
+            try:
+                quiz.save()
 
             except PIL.UnidentifiedImageError:
                 messages.add_message(request, messages.ERROR, "Unknown filetype.")
