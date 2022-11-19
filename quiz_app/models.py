@@ -28,7 +28,7 @@ class Quiz(models.Model):
 
 class Question(models.Model):
     """
-    a single question in a quiz, a quit can have multiple questions
+    a single question in a quiz, a quiz can have multiple questions
     optionally there can be a time limit for each question
     """
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
