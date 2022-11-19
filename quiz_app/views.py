@@ -3,7 +3,7 @@
 """
 import os
 
-from django.db.models import QuerySet
+import PIL
 from django.utils import datastructures
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
@@ -11,7 +11,6 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
-from django.views.generic.base import ContextMixin
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
 
@@ -79,14 +78,23 @@ def edit_quiz_view(request, quiz_id):
                     if thumbnail.multiple_chunks():
                         """if the image is larger than 2.5 megabyte return with an error message"""
                         messages.add_message(request, messages.ERROR, "Images can't be larger than 2.5 Megabytes.")
-                        return HttpResponseRedirect(reverse('CreateQuizView'))
+                        return HttpResponseRedirect(reverse('IndexView'))
                     else:
-                        os.remove(f"{os.getcwd()}{settings.MEDIA_URL}{quiz.thumbnail}")
+                        try:
+                            os.remove(f"{os.getcwd()}{settings.MEDIA_URL}{quiz.thumbnail}")
+                        except FileNotFoundError:
+                            pass
+
                         quiz.thumbnail = thumbnail
+
+                quiz.save()
+
             except datastructures.MultiValueDictKeyError:
                 pass
 
-            quiz.save()
+            except PIL.UnidentifiedImageError:
+                messages.add_message(request, messages.ERROR, "Unknown filetype.")
+                return HttpResponseRedirect(reverse('IndexView'))
 
         else:
             questions = models.Question.objects.filter(quiz=quiz)
@@ -129,23 +137,23 @@ def quiz_delete(request, quiz_id):
         return HttpResponseRedirect(reverse('IndexView'))
 
 
-def edit_questions(request, quiz_id):
-    quiz = get_object_or_404(models.Quiz, pk=quiz_id)
-    questions = models.Question.objects.filter(quiz=quiz)
+def edit_question(request, question_id):
+    question = get_object_or_404(models.Question, pk=question_id)
 
-    for i in request.POST:
-        if 'QUESTION' in i:
-            current_question = get_object_or_404(models.Question, id=i[8:])
-            current_question.title = request.POST[i]
-            current_question.save()
+    if get_object_or_404(models.Quiz, pk=question.quiz.id).user == request.user:
+        if request.POST:
+            question.title = request.POST["title"]
+            print(request.POST["time"])
+            question.time = request.POST["time"]
 
-        elif 'OPTION' in i:
-            current_option = get_object_or_404(models.Option, id=i[6:])
-            current_option.text = request.POST[i]
-            current_option.save()
+            question.save()
+
+            return HttpResponseRedirect(reverse('IndexView'))
 
         else:
-            pass
+            return HttpResponse(render(request, 'quiz_app/edit_question.html', context={
+                'question': question
+            }))
 
-    return HttpResponseRedirect(reverse('IndexView'))
-
+    else:
+        return render(request, 'quiz_app/no_permission.html')
