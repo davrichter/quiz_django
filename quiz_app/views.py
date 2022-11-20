@@ -145,7 +145,7 @@ def edit_question(request, question_id):
         if request.POST:
             question.title = request.POST["title"]
             print(request.POST["time"])
-            question.time = request.POST["time"]
+            question.time = int(request.POST["time"])
 
             question.save()
 

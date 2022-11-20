@@ -35,7 +35,7 @@ class Question(models.Model):
     title = models.CharField(max_length=200)
     time = models.PositiveIntegerField(
         verbose_name="Time to solve the question",
-        name="Time",
+        name="time",
         null=True,
     )
 

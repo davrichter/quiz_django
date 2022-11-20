@@ -23,7 +23,16 @@
             </div>
             <button class="btn btn-primary mt-1" type="submit">Save</button>
         </form>
-
+        <hr>
+        <ol>
+            {% for question in questions %}
+                <li>
+                    <span>{{ question.title }} - </span>
+                    <span>{{ question.time }} Seconds - </span>
+                    <span><a href="{% url 'EditQuestionView' question_id=question.id %}">Edit</a></span>
+                </li>
+            {% endfor %}
+        </ol>
         <hr>
         <button class="btn btn-danger" id="delete-quiz-button" data-bs-toggle="modal" data-bs-target="#exampleModal">
             Delete Quiz
@@ -52,48 +61,14 @@
         <!-- modal to submit to the deletion of quiz -->
         <hr>
     </div>
-    <div class="container">
-        <h2>Questions</h2>
-        <form class="" method="POST" action="{% url 'QuestionUpdateView' quiz_id=quiz.id %}">
-            {% for question in questions %}
-                {% csrf_token %}
-                <div class="rounded shadow">
-                    <div class="m-3">
-                        <div class="form-floating mb-3">
-                            <input class="form-control"
-                                   id="quiz-title-form"
-                                   aria-describedby="Question"
-                                   name="QUESTION{{ question.id }}"
-                                   placeholder="Question"
-                                   value="{{ question.title }}">
-                            <label for="quiz-title-form">Question</label>
-                        </div>
-                        <ul>
-                            {% for option in options %}
-                                {% if option.Question == question %}
-                                    <li>
-                                        <div class="form-floating mb-3">
-                                            <input class="form-control"
-                                                   id="quiz-title-form"
-                                                   aria-describedby="Option"
-                                                   name="OPTION{{ option.id }}"
-                                                   value="{{ option.text }}">
-                                            <label for="quiz-title-form" class="form-label">Option</label>
-                                        </div>
-                                    </li>
-                                {% endif %}
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-            {% endfor %}
-            <button class="btn btn-primary mt-1" type="submit">Save</button>
-        </form>
+    <div class="container" id="questions">
+        {% csrf_token %}
     </div>
 {% endblock content %}
 
 {% block scripts %}
     {{ block.super }}
     <script src="https://unpkg.com/vue@3"></script>
+    <script>let quiz_id = {{ quiz.id }}</script>
     <script rel="script" src="{% static 'quiz_app/js/edit_quiz.js' %}"></script>
 {% endblock scripts %}

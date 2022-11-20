@@ -4,7 +4,7 @@
         https://docs.djangoproject.com/en/4.0/topics/http/urls/
 """
 
-from django.urls import path, include
+from django.urls import path
 
 from . import views
 
@@ -14,5 +14,5 @@ urlpatterns = [
     path('quiz/edit/<int:quiz_id>/', views.edit_quiz_view, name='EditQuizView'),
     path('quiz/delete/<int:quiz_id>/', views.quiz_delete, name='DeleteQuiz'),
     path('quiz/view/<int:quiz_id>/', views.quiz_view, name='QuizView'),
-    path('question/update/<int:quiz_id>', views.edit_questions, name='QuestionUpdateView')
+    path('question/edit/<int:question_id>', views.edit_question, name='EditQuestionView'),
 ]

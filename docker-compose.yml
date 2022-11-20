@@ -1,8 +1,11 @@
 version: "3.9"
-   
+
+networks:
+    backend:
+
 services:
   db:
-    image: postgres
+    image: postgres:14
     volumes:
         - ./data/db:/var/lib/postgresql/data
     environment:
@@ -11,6 +14,8 @@ services:
       - POSTGRES_PASSWORD=123
     ports:
       - "5432:5432"
+    networks:
+      - "backend"
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
@@ -22,6 +27,9 @@ services:
       - POSTGRES_NAME=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=123
+      - DB_HOST=db
     depends_on:
       - db
+    networks:
+      - "backend"
 
