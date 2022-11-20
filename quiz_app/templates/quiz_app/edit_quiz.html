@@ -29,7 +29,8 @@
                 <li>
                     <span>{{ question.title }} - </span>
                     <span>{{ question.time }} Seconds - </span>
-                    <span><a href="{% url 'EditQuestionView' question_id=question.id %}">Edit</a></span>
+                    <span><a href="{% url 'EditQuestionView' question_id=question.id %}">Edit</a> - </span>
+                    <span><a style="color: red" href="{% url 'DeleteQuestionView' question_id=question.id %}">Delete</a></span>
                 </li>
             {% endfor %}
             <a href="{% url 'CreateQuestionView' quiz_id=quiz.id %}">

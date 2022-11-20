@@ -179,3 +179,14 @@ def create_question(request, quiz_id):
             }))
     else:
         return render(request, 'quiz_app/no_permission.html')
+
+
+def delete_question(request, question_id):
+    question = get_object_or_404(models.Question, pk=question_id)
+
+    if get_object_or_404(models.Quiz, pk=question.quiz.id).user == request.user:
+        question.delete()
+
+        return HttpResponseRedirect(reverse('EditQuizView', args=(question.quiz.id,)))
+    else:
+        return render(request, 'quiz_app/no_permission.html')
