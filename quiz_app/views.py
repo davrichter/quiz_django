@@ -158,3 +158,21 @@ def edit_question(request, question_id):
 
     else:
         return render(request, 'quiz_app/no_permission.html')
+
+
+def create_question(request, quiz_id):
+    if request.POST:
+        question = models.Question.objects.create(
+            time=request.POST["time"],
+            title=request.POST["title"],
+            quiz=get_object_or_404(models.Quiz, pk=quiz_id),
+        )
+
+        question.save()
+
+        return HttpResponseRedirect(reverse('EditQuizView', args=(quiz_id,)))
+
+    else:
+        return HttpResponse(render(request, 'quiz_app/create_question.html', context={
+            'quiz': get_object_or_404(models.Quiz, pk=quiz_id),
+        }))

@@ -1,0 +1,21 @@
+{% extends 'quiz_app/base.html' %}
+{% load static %}
+
+{% block title %}{{ block.super }}Create New Question{% endblock title %}
+
+{% block content %}
+    <div class="container">
+        <form method="POST" action="{% url 'CreateQuestionView' quiz_id=quiz.id %}">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="title" class="form-label">Title:</label>
+                <input id="title" name="title" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="time" class="form-label">Time:</label>
+                <input id="time" name="time" class="form-control">
+            </div>
+            <button class="btn btn-primary mt-1" type="submit">Create</button>
+        </form>
+    </div>
+{% endblock content %}

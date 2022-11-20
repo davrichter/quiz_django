@@ -32,6 +32,11 @@
                     <span><a href="{% url 'EditQuestionView' question_id=question.id %}">Edit</a></span>
                 </li>
             {% endfor %}
+            <a href="{% url 'CreateQuestionView' quiz_id=quiz.id %}">
+                <button class="btn btn-primary mt-1 mb-1">
+                    <i class="bi bi-plus-lg"></i>
+                </button>
+            </a>
         </ol>
         <hr>
         <button class="btn btn-danger" id="delete-quiz-button" data-bs-toggle="modal" data-bs-target="#exampleModal">
