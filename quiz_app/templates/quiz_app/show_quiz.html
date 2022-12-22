@@ -14,24 +14,8 @@
                 <li>
                     <span>{{ question.title }} - </span>
                     <span>{{ question.time }} Seconds</span>
-                    <ol>
-                    {% for option in options %}
-                        {% if option.Question == question %}
-                            <li>
-                                <span>{{ option.Option }}</span>
-                            </li>
-                        {% endif %}
-                    {% endfor %}
-                    </ol>
                 </li>
             {% endfor %}
         </ul>
-    <ol>
-    {% for option in options %}
-            <li>
-                <span>{{ option.values }}</span>
-            </li>
-    {% endfor %}
-    </ol>
     </div>
 {% endblock content %}

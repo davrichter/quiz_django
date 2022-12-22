@@ -117,15 +117,10 @@ def quiz_view(request, quiz_id):
     """A view for viewing a quiz."""
     quiz = get_object_or_404(models.Quiz, pk=quiz_id)
     questions = models.Question.objects.filter(quiz=quiz)
-    options = []
-
-    for i in range(0, len(questions)):
-        options.append(models.Option.objects.filter(Question=questions[i]))
 
     return HttpResponse(render(request, 'quiz_app/show_quiz.html', context={
         'quiz': quiz,
-        'questions': questions,
-        'options': options,
+        'questions': questions
     }))
 
 
@@ -188,60 +183,6 @@ def create_question(request, quiz_id):
 
 def delete_question(request, question_id):
     question = get_object_or_404(models.Question, pk=question_id)
-
-    if get_object_or_404(models.Quiz, pk=question.quiz.id).user == request.user:
-        question.delete()
-
-        return HttpResponseRedirect(reverse('EditQuizView', args=(question.quiz.id,)))
-    else:
-        return render(request, 'quiz_app/no_permission.html')
-
-
-def edit_option(request, option_id):
-    question = get_object_or_404(models.Question, pk=option_id)
-
-    if get_object_or_404(models.Quiz, pk=question.quiz.id).user == request.user:
-        if request.POST:
-            question.title = request.POST["title"]
-            print(request.POST["time"])
-            question.time = int(request.POST["time"])
-
-            question.save()
-
-            return HttpResponseRedirect(reverse('IndexView'))
-
-        else:
-            return HttpResponse(render(request, 'quiz_app/edit_question.html', context={
-                'question': question
-            }))
-
-    else:
-        return render(request, 'quiz_app/no_permission.html')
-
-
-def create_option(request, question_id):
-    if request.user == (get_object_or_404(models.Quiz, pk=question_id)).user:
-        if request.POST:
-            question = models.Question.objects.create(
-                time=request.POST["time"],
-                title=request.POST["title"],
-                quiz=get_object_or_404(models.Quiz, pk=question_id),
-            )
-
-            question.save()
-
-            return HttpResponseRedirect(reverse('EditQuizView', args=(question_id,)))
-
-        else:
-            return HttpResponse(render(request, 'quiz_app/create_question.html', context={
-                'quiz': get_object_or_404(models.Quiz, pk=question_id),
-            }))
-    else:
-        return render(request, 'quiz_app/no_permission.html')
-
-
-def delete_option(request, option_id):
-    question = get_object_or_404(models.Question, pk=option_id)
 
     if get_object_or_404(models.Quiz, pk=question.quiz.id).user == request.user:
         question.delete()

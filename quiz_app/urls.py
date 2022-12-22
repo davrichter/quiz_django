@@ -17,7 +17,4 @@ urlpatterns = [
     path('question/edit/<int:question_id>', views.edit_question, name='EditQuestionView'),
     path('question/create/<int:quiz_id>', views.create_question, name='CreateQuestionView'),
     path('question/delete/<int:question_id>', views.delete_question, name='DeleteQuestionView'),
-    path('option/edit/<int:option_id>', views.edit_option, name='EditOptionView'),
-    path('option/create/<int:option_id>', views.create_option, name='CreateOptionView'),
-    path('option/delete/<int:option_id>', views.delete_option, name='DeleteOptionView'),
 ]
